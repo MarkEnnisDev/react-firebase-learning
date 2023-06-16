@@ -1,10 +1,20 @@
-export default function Modal() {
-  return (
+import ReactDOM from 'react-dom'
+import "./Modal.css"
+
+export default function Modal({ children, handleClose, isSalesModal }) {
+  return ReactDOM.createPortal((
     <div className="modal-backdrop">
-        <div className="modal">
-            <h2>10% Off Coupon Code!!</h2>
-            <p>Use the code SHINOBU10 at the checkout.</p>
+        <div className="modal" style={{
+          border: "4px solid",
+          borderColor: isSalesModal ? "#ff4500" : "#aa4500",
+          textAlign: "center"
+        }}>
+            {children}
+            <button 
+             onClick={handleClose} 
+             className={isSalesModal ? "sales-btn" : ""}>
+             X</button>
         </div>
     </div>
-  )
+  ), document.body)
 }
