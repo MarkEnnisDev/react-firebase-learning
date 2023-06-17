@@ -1,32 +1,21 @@
 import { useEffect, useState, useCallback } from "react"
-import { useFetch } from "../hooks/useFetch"
 // styles
 import './TripList.css'
+import { useFetch } from "../hooks/useFetch"
 
 export default function TripList() {
-    const [trips, setTrips] = useState([])
     const [url, setUrl] = useState('http://localhost:3000/trips')
+    const { data: trips, isPending, error } = useFetch(url, {type: 'GET'})
 
-    // useCallback prevents the function from triggering useEffect, similar to useState
-    // Have to put url in there because it won't fire an update unless the url is in the array
-    // You have to use useCallback if a function is outside of useEffect and is in the dependency array
-    // useEffect can't use async on itself but can have functions that utilize it.
-    const fetchTrips = useCallback(async () => {
-      const response = await fetch(url)
-      const json = await response.json()
-      setTrips(json)
-    }, [url])
-
-    useEffect(() => {
-        fetchTrips()
-    }, [fetchTrips])
-
-    console.log(trips)
   return (
     <div className="trip-list">
         <h2>TripList</h2>
+        {isPending && <div>Loading trips...</div>}
+        {error && <div>{error}</div>}
         <ul>
-            {trips.map(trip => (
+            {/* Conditional rendering is required to ensure that data is fully loaded before trying to use
+            the map property on the data object */}
+            {trips && trips.map(trip => (
               <li key={trip.id}>
                 <h3>{trip.title}</h3>
                 <p>{trip.price}</p>
