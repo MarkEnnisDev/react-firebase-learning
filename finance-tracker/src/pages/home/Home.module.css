@@ -93,3 +93,10 @@
 .sidebar .dropdown label{
   color: black;
 }
+.sidebar .dropdown {
+  display: flex;
+  justify-content: space-around
+}
+.sidebar .dropdown select {
+  
+}
