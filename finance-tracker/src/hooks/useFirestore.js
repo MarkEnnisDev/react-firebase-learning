@@ -30,7 +30,6 @@ export const useFirestore = (collection) => {
   // add a document
   const addDocument = async (doc) => {
     dispatch({ type: "IS_PENDING"})
-    console.log('adddocument')
     try {
       console.log('hello')
       const createdAt = timestamp.fromDate(new Date())
